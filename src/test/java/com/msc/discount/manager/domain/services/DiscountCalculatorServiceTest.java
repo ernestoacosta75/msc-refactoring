@@ -7,6 +7,12 @@ import com.msc.discount.manager.domain.vo.Seniority;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class is used for the unit test
+ * regarding the DiscountCalculatoService.
+ *
+ * @author Ernesto A. Rodrigue Acosta
+ */
 class DiscountCalculatorServiceTest {
 
     private DiscountCalculatorService discountCalculatorService = new DiscountCalculatorServiceImpl();

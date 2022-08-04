@@ -12,6 +12,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * This class is used for the integrations tests
+ * regarding the components of the Discount Manager.
+ *
+ * @author Ernesto A. Rodriguez Acosta
+ */
 class CalculatorTests {
 
     private DiscountCalculatorService discountCalculatorService = new DiscountCalculatorServiceImpl();

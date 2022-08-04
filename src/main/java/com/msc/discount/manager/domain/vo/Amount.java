@@ -1,5 +1,11 @@
 package com.msc.discount.manager.domain.vo;
 
+/**
+ * Value Object used to represent the
+ * amount that belongs to a customer.
+ *
+ * @@author Ernesto A. Rodriguez Acosta
+ */
 public final class Amount {
 
     private double value;

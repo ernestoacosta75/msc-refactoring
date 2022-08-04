@@ -1,5 +1,9 @@
 package com.msc.discount.manager.domain.vo;
-
+/**
+ * Value Object used to represent the seniority of a client.
+ *
+ * @@author Ernesto A. Rodriguez Acosta
+ */
 public final class Seniority {
 
     private int value;

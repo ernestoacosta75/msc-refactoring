@@ -3,6 +3,13 @@ package com.msc.discount.manager.infrastructure.impl;
 import com.msc.discount.manager.domain.vo.Amount;
 import com.msc.discount.manager.domain.vo.Seniority;
 
+/**
+ * This class contains several constants values
+ * used for the business logic of the discount
+ * algorithm.
+ *
+ * @author Ernesto A. Rodriguez Acosta
+ */
 public class DiscountCalculatorUtils {
 
     public static final int UNREGISTERED_SENIORITY_LEVEL = 1;

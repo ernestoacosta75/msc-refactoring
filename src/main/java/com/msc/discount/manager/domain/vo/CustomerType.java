@@ -1,5 +1,11 @@
 package com.msc.discount.manager.domain.vo;
 
+/**
+ * Value Object used to represent the
+ * customer type.
+ *
+ * @@author Ernesto A. Rodriguez Acosta
+ */
 public final class CustomerType {
 
     private int value;
