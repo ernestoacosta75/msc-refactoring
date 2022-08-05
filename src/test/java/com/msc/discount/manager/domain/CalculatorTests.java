@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class CalculatorTests {
 
-    private DiscountCalculatorService discountCalculatorService = new DiscountCalculatorServiceImpl();
+    private DiscountCalculatorService discountCalculatorService = DiscountCalculatorServiceImpl.getInstance();
     DiscountCalculationContext discountCalculationContext = new DiscountCalculationContext();
 
     @Test

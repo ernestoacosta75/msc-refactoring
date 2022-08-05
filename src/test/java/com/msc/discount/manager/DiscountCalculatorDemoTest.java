@@ -22,7 +22,7 @@ import java.util.Scanner;
 public class DiscountCalculatorDemoTest {
 
     public static void main(String[] args) {
-        DiscountCalculatorService discountCalculatorService = new DiscountCalculatorServiceImpl();
+        DiscountCalculatorService discountCalculatorService = DiscountCalculatorServiceImpl.getInstance();
         DecimalFormat f = new DecimalFormat("##.000");
         DiscountCalculationContext discountCalculationContext = new DiscountCalculationContext();
 

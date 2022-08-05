@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  */
 class DiscountCalculatorServiceTest {
 
-    private DiscountCalculatorService discountCalculatorService = new DiscountCalculatorServiceImpl();
+    private DiscountCalculatorService discountCalculatorService = DiscountCalculatorServiceImpl.getInstance();
 
     @Test
     void whenCalculateDiscountWithValidValues_ThenReturnDiscount() {
