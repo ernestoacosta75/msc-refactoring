@@ -1,6 +1,7 @@
 package com.msc.discount.manager.domain.services;
 
 import com.msc.discount.manager.application.services.DiscountCalculatorServiceImpl;
+import com.msc.discount.manager.domain.entities.CustomerEntity;
 import com.msc.discount.manager.domain.vo.Amount;
 import com.msc.discount.manager.domain.vo.CustomerType;
 import com.msc.discount.manager.domain.vo.Seniority;
@@ -22,8 +23,9 @@ class DiscountCalculatorServiceTest {
         Amount amount = Amount.create(1.0d);
         CustomerType customerType = CustomerType.create(3);
         Seniority seniority = Seniority.create(4);
+        CustomerEntity customer = new CustomerEntity(amount, customerType, seniority);
 
-        Amount discount = discountCalculatorService.calculateDiscount(amount, customerType, seniority);
+        Amount discount = discountCalculatorService.calculateDiscount(customer);
 
         Assertions.assertTrue(discount != null);
     }

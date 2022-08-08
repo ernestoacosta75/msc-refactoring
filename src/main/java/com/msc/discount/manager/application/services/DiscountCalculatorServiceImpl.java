@@ -1,6 +1,7 @@
 package com.msc.discount.manager.application.services;
 
 
+import com.msc.discount.manager.domain.entities.CustomerEntity;
 import com.msc.discount.manager.domain.services.DiscountCalculatorService;
 import com.msc.discount.manager.domain.vo.Amount;
 import com.msc.discount.manager.domain.vo.CustomerType;
@@ -32,20 +33,23 @@ public class DiscountCalculatorServiceImpl implements DiscountCalculatorService 
     }
 
     @Override
-    public Amount calculateDiscount(Amount amount, CustomerType customerType, Seniority seniority) {
+    public Amount calculateDiscount(CustomerEntity customer) {
 
-        switch (customerType.getValue()) {
+        switch (customer.getCustomerType().getValue()) {
             case DiscountCalculatorUtils.UNREGISTERED_SENIORITY_LEVEL:
-                discountCalculated = amount;
+                discountCalculated = customer.getAmount();
                 break;
             case DiscountCalculatorUtils.REGISTERED_SENIORITY_LEVEL:
-                discountCalculated = applyDiscountAlgorithmWithIndex(DiscountCalculatorUtils.REGISTERED_DISCOUNT_INDEX, amount, seniority);
+                discountCalculated = applyDiscountAlgorithmWithIndex(
+                        DiscountCalculatorUtils.REGISTERED_DISCOUNT_INDEX, customer);
                 break;
             case DiscountCalculatorUtils.VALUABLE_SENIORITY_LEVEL:
-                discountCalculated = applyDiscountAlgorithm(DiscountCalculatorUtils.VALUABLE_DISCOUNT_INDEX, amount, seniority);
+                discountCalculated = applyDiscountAlgorithm(
+                        DiscountCalculatorUtils.VALUABLE_DISCOUNT_INDEX, customer);
                 break;
             case DiscountCalculatorUtils.MOST_VALUABLE_SENIORITY_LEVEL:
-                discountCalculated = applyDiscountAlgorithmWithIndex(DiscountCalculatorUtils.MOST_VALUABLE_DISCOUNT_INDEX, amount, seniority);
+                discountCalculated = applyDiscountAlgorithmWithIndex(
+                        DiscountCalculatorUtils.MOST_VALUABLE_DISCOUNT_INDEX, customer);
                 break;
         }
 
@@ -55,33 +59,32 @@ public class DiscountCalculatorServiceImpl implements DiscountCalculatorService 
     /**
      * Common discount algorithm.
      * @param discountIndex
-     * @param amount
-     * @param seniority
+     * @param customer
      * @return
      */
-    private Amount applyDiscountAlgorithmWithIndex(Amount discountIndex, Amount amount, Seniority seniority) {
+    private Amount applyDiscountAlgorithmWithIndex(Amount discountIndex, CustomerEntity customer) {
         return Amount.create(
-                (amount.getValue() -
+                (customer.getAmount().getValue() -
                 (discountIndex.getValue() *
-                        amount.getValue())) -
-                DiscountCalculatorUtils.getDiscount(seniority).getValue() * (amount.getValue() -
+                        customer.getAmount().getValue())) -
+                DiscountCalculatorUtils.getDiscount(customer.getSeniority()).getValue() *
+                        (customer.getAmount().getValue() -
                         (discountIndex.getValue() *
-                                amount.getValue()))
+                                customer.getAmount().getValue()))
         );
     }
 
     /**
      * Standard discount algorithm.
      * @param discountIndex
-     * @param amount
-     * @param seniority
+     * @param customer
      * @return
      */
-    private Amount applyDiscountAlgorithm(Amount discountIndex, Amount amount, Seniority seniority) {
+    private Amount applyDiscountAlgorithm(Amount discountIndex, CustomerEntity customer) {
         return Amount.create(
-                (discountIndex.getValue() * amount.getValue())
-                - DiscountCalculatorUtils.getDiscount(seniority).getValue() *
-                (discountIndex.getValue() * amount.getValue())
+                (discountIndex.getValue() * customer.getAmount().getValue())
+                - DiscountCalculatorUtils.getDiscount(customer.getSeniority()).getValue() *
+                (discountIndex.getValue() * customer.getAmount().getValue())
         );
     }
 }

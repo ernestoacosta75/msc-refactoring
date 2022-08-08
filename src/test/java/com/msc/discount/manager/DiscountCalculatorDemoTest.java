@@ -1,13 +1,13 @@
 package com.msc.discount.manager;
 
 import com.msc.discount.manager.application.services.DiscountCalculatorServiceImpl;
+import com.msc.discount.manager.domain.entities.CustomerEntity;
 import com.msc.discount.manager.domain.services.DiscountCalculatorService;
 import com.msc.discount.manager.domain.vo.Amount;
 import com.msc.discount.manager.domain.vo.CustomerType;
 import com.msc.discount.manager.domain.vo.Seniority;
+import com.msc.discount.manager.infrastructure.impl.CustomerDiscountCalculator;
 import com.msc.discount.manager.infrastructure.impl.DiscountCalculationContext;
-import com.msc.discount.manager.infrastructure.impl.DiscountCalculatorUtils;
-import com.msc.discount.manager.infrastructure.impl.UnregisteredCalculator;
 
 import java.text.DecimalFormat;
 import java.util.Scanner;
@@ -23,7 +23,7 @@ public class DiscountCalculatorDemoTest {
 
     public static void main(String[] args) {
         DiscountCalculatorService discountCalculatorService = DiscountCalculatorServiceImpl.getInstance();
-        DecimalFormat f = new DecimalFormat("##.000");
+        DecimalFormat f = new DecimalFormat("##.00");
         DiscountCalculationContext discountCalculationContext = new DiscountCalculationContext();
 
         Scanner sc = new Scanner(System.in);
@@ -37,23 +37,11 @@ public class DiscountCalculatorDemoTest {
         System.out.println("Enter the seniority:");
         Seniority seniority = Seniority.create(sc.nextInt());
 
-        switch (customerType.getValue()) {
-            case DiscountCalculatorUtils.UNREGISTERED_SENIORITY_LEVEL:
-                discountCalculationContext.setStrategy(new UnregisteredCalculator(discountCalculatorService));
-                break;
-            case DiscountCalculatorUtils.REGISTERED_SENIORITY_LEVEL:
-                discountCalculationContext.setStrategy(new UnregisteredCalculator(discountCalculatorService));
-                break;
-            case DiscountCalculatorUtils.VALUABLE_SENIORITY_LEVEL:
-                discountCalculationContext.setStrategy(new UnregisteredCalculator(discountCalculatorService));
-                break;
-            case DiscountCalculatorUtils.MOST_VALUABLE_SENIORITY_LEVEL:
-                discountCalculationContext.setStrategy(new UnregisteredCalculator(discountCalculatorService));
-                break;
-        }
+        CustomerEntity customer = new CustomerEntity(amount, customerType, seniority);
+        discountCalculationContext.setStrategy(new CustomerDiscountCalculator(discountCalculatorService));
 
         Amount discountApplied = discountCalculationContext
-                .calculateDiscount(amount, customerType, seniority);
+                .calculateDiscount(customer);
 
         System.out.println(String.format("The discount applied for the client is %n " +
                 f.format(discountApplied.getValue())));

@@ -1,5 +1,6 @@
 package com.msc.discount.manager.domain;
 
+import com.msc.discount.manager.domain.entities.CustomerEntity;
 import com.msc.discount.manager.domain.vo.Amount;
 import com.msc.discount.manager.domain.vo.CustomerType;
 import com.msc.discount.manager.domain.vo.Seniority;
@@ -16,5 +17,5 @@ import com.msc.discount.manager.domain.vo.Seniority;
  */
 public interface ICalculatorStrategy {
 
-    Amount calculateDiscount (Amount amount, CustomerType type, Seniority years);
+    Amount calculateDiscount (CustomerEntity customer);
 }

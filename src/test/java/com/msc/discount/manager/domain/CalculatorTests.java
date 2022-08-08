@@ -1,6 +1,7 @@
 package com.msc.discount.manager.domain;
 
 import com.msc.discount.manager.application.services.DiscountCalculatorServiceImpl;
+import com.msc.discount.manager.domain.entities.CustomerEntity;
 import com.msc.discount.manager.domain.services.DiscountCalculatorService;
 import com.msc.discount.manager.domain.vo.Amount;
 import com.msc.discount.manager.domain.vo.CustomerType;
@@ -54,9 +55,6 @@ class CalculatorTests {
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             Seniority seniority = Seniority.create(-4);
-
-            discountCalculationContext.setStrategy(new UnregisteredCalculator(discountCalculatorService));
-
         });
 
         String expectedMessage = "The seniority must be bigger than zero.";
@@ -70,11 +68,12 @@ class CalculatorTests {
         Amount amount = Amount.create(1.0d);
         CustomerType customerType = CustomerType.create(1);
         Seniority seniority = Seniority.create(4);
+        CustomerEntity customer = new CustomerEntity(amount, customerType, seniority);
 
-        discountCalculationContext.setStrategy(new UnregisteredCalculator(discountCalculatorService));
+        discountCalculationContext.setStrategy(new CustomerDiscountCalculator(discountCalculatorService));
 
         Amount discount = discountCalculationContext
-                .calculateDiscount(amount, customerType, seniority);
+                .calculateDiscount(customer);
 
         Assertions.assertTrue(discount != null);
         Assertions.assertTrue(discount.getValue() == amount.getValue());
@@ -85,11 +84,12 @@ class CalculatorTests {
         Amount amount = Amount.create(1.0d);
         CustomerType customerType = CustomerType.create(2);
         Seniority seniority = Seniority.create(4);
+        CustomerEntity customer = new CustomerEntity(amount, customerType, seniority);
 
-        discountCalculationContext.setStrategy(new RegisteredCalculator(discountCalculatorService));
+        discountCalculationContext.setStrategy(new CustomerDiscountCalculator(discountCalculatorService));
 
         Amount discount = discountCalculationContext
-                .calculateDiscount(amount, customerType, seniority);
+                .calculateDiscount(customer);
 
         Assertions.assertTrue(discount != null);
     }
@@ -99,11 +99,12 @@ class CalculatorTests {
         Amount amount = Amount.create(1.0d);
         CustomerType customerType = CustomerType.create(3);
         Seniority seniority = Seniority.create(4);
+        CustomerEntity customer = new CustomerEntity(amount, customerType, seniority);
 
-        discountCalculationContext.setStrategy(new ValuableCalculator(discountCalculatorService));
+        discountCalculationContext.setStrategy(new CustomerDiscountCalculator(discountCalculatorService));
 
         Amount discount = discountCalculationContext
-                .calculateDiscount(amount, customerType, seniority);
+                .calculateDiscount(customer);
 
         Assertions.assertTrue(discount != null);
     }
@@ -113,11 +114,12 @@ class CalculatorTests {
         Amount amount = Amount.create(1.0d);
         CustomerType customerType = CustomerType.create(4);
         Seniority seniority = Seniority.create(4);
+        CustomerEntity customer = new CustomerEntity(amount, customerType, seniority);
 
-        discountCalculationContext.setStrategy(new MosValuableCalculator(discountCalculatorService));
+        discountCalculationContext.setStrategy(new CustomerDiscountCalculator(discountCalculatorService));
 
         Amount discount = discountCalculationContext
-                .calculateDiscount(amount, customerType, seniority);
+                .calculateDiscount(customer);
 
         Assertions.assertTrue(discount != null);
     }

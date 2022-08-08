@@ -1,6 +1,7 @@
 package com.msc.discount.manager.infrastructure.impl;
 
 import com.msc.discount.manager.domain.ICalculatorStrategy;
+import com.msc.discount.manager.domain.entities.CustomerEntity;
 import com.msc.discount.manager.domain.vo.Amount;
 import com.msc.discount.manager.domain.vo.CustomerType;
 import com.msc.discount.manager.domain.vo.Seniority;
@@ -25,12 +26,10 @@ public class DiscountCalculationContext {
      * The discount calculation is delegated to the
      * strategy object instead of implementing multiple
      * versions of the discount algorithm.
-     * @param amount
-     * @param customerType
-     * @param seniority
+     * @param customer
      * @return
      */
-    public Amount calculateDiscount(Amount amount, CustomerType customerType, Seniority seniority) {
-        return strategy.calculateDiscount(amount, customerType, seniority);
+    public Amount calculateDiscount(CustomerEntity customer) {
+        return strategy.calculateDiscount(customer);
     }
 }
